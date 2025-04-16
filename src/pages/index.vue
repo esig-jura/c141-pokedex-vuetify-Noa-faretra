@@ -18,6 +18,7 @@
         md="4"
         sm="6"
         xl="2"
+        xs="12"
       >
         <v-card
           class="mx-auto"
@@ -26,7 +27,7 @@
           <v-img
             :alt="pokemon.name"
             height="200px"
-            src="/images/magicarpe.png"
+            :src="`/images/${pokemon.img}`"
           />
 
           <v-card-title>
@@ -40,7 +41,8 @@
           <v-card-actions>
             <v-btn
               color="red"
-              icon="mdi-heart-outline"
+              :icon="pokemonStore.isFavorite(pokemon) ? 'mdi-heart' : 'mdi-heart-outline'"
+              @click="pokemonStore.toggleFavorite(pokemon)"
             />
           </v-card-actions>
         </v-card>
@@ -56,3 +58,9 @@
   const pokemonStore = usePokemonStore()
   // console.log(pokemonStore.pokemons)
 </script>
+
+<style scoped>
+.mdi-heart {
+  animation : heartbeat 1s ease-in-out;
+}
+</style>
