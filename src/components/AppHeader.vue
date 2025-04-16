@@ -24,7 +24,7 @@
       />
 
       <!-- Titre de l'application affiché dans la barre -->
-      <v-toolbar-title>Pokedex</v-toolbar-title>
+      <v-toolbar-title>Pokedex : {{ pokemonStore.totalPokemons }} / 255</v-toolbar-title>
 
       <!--
       Liens de navigation générés dynamiquement
@@ -44,6 +44,12 @@
 </template>
 
 <script setup>
+
+// récuperer le magasin
+  import { usePokemonStore } from '@/stores/pokemonStore'
+
+  const pokemonStore = usePokemonStore()
+
   /*
   Définition des éléments de menu pour la navigation
     - Chaque élément contient :
@@ -53,6 +59,9 @@
   */
   const menuItems = [
     { title: 'Accueil', path: '/', icon: 'mdi-pokeball' },
+    { title: 'Favoris', path: '/Favoris', icon: 'mdi-heart' },
+    { title: 'FAQ', path: '/FAQ', icon: 'mdi-frequently-asked-questions' },
+    { title: 'KantoMap', path: '/KantoMap', icon: 'mdi-map' },
     // Ajouter ici les autres liens du menu.
     // Vous trouverez des icônes sur https://pictogrammers.com/library/mdi/
     // N'oubliez pas d'ajouter le préfixe 'mdi-' devant le nom de l'icône.
