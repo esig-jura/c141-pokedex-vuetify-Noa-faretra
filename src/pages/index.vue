@@ -3,6 +3,7 @@
     <h1 class="mb-6 text-center">Pokédex</h1>
 
     <v-text-field
+      v-model="search"
       clearable
       label="Rechercher un Pokémon"
       prepend-icon="mdi-magnify"
@@ -11,7 +12,7 @@
     <v-row>
       <!-- Exemple de colonne vide (à dupliquer plus tard avec du contenu) -->
       <v-col
-        v-for="pokemon in pokemonStore.pokemons"
+        v-for="pokemon in filteredPokemons"
         :key="pokemon.id"
         cols="12"
         lg="3"
@@ -20,43 +21,42 @@
         xl="2"
         xs="12"
       >
-        <v-card
-          class="mx-auto"
-          max-width="344"
-        >
-          <v-img
-            :alt="pokemon.name"
-            height="200px"
-            :src="`/images/${pokemon.img}`"
-          />
-
-          <v-card-title>
-            {{ pokemon.name }}
-          </v-card-title>
-
-          <v-card-subtitle>
-            Niveau : {{ pokemon.level }}
-          </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn
-              color="red"
-              :icon="pokemonStore.isFavorite(pokemon) ? 'mdi-heart' : 'mdi-heart-outline'"
-              @click="pokemonStore.toggleFavorite(pokemon)"
-            />
-          </v-card-actions>
-        </v-card>
+        <PokemonCard :pokemon="pokemon" />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script setup lang="ts">
- // récuperer le magasin
+  // importation des bases
+  import { computed, ref } from 'vue'
+
+  // récupérer le composant card
+  import PokemonCard from '@/components/PokemonCard.vue'
+
+  // récuperer le magasin
   import { usePokemonStore } from '@/stores/pokemonStore'
 
   const pokemonStore = usePokemonStore()
   // console.log(pokemonStore.pokemons)
+
+  // Variable de recherche
+  const search = ref('')
+
+  // Création d'une valeur calculer qui va check ce que l'utilisateur va entrer dans la barre de recherche
+  const filteredPokemons = computed(() => {
+    const query = search.value.toLowerCase().trim()
+    return sortedPokemons.value.filter(pokemon =>
+      pokemon.name.toLowerCase().includes(query)
+    )
+  })
+
+  // Propriété pour trier les pokemons par odre alphabétique
+  const sortedPokemons = computed(() => {
+    return [...pokemonStore.pokemons].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    )
+  })
 </script>
 
 <style scoped>
