@@ -8,26 +8,15 @@
         <h1 class="text-h4">{{ pokemon.name }}</h1>
         <p>Niveau : {{ pokemon.level }}</p>
         <p>Types :
-          <v-chip
-            v-for="typeId in pokemon.types"
-            :key="typeId"
-            class="ma-1"
-            color="primary"
-            label
-            small
-          >
-            {{ pokemonStore.getTypeById(typeId)?.name }}
-          </v-chip>
+          <PokemonTypesChips class="mt-4" :pokemon="pokemon" />
         </p>
+        <p class="mt-6 text-body-1">{{ pokemon.description }}</p>
 
         <!-- Placeholder pour stats -->
         <v-card class="mt-4">
           <v-card-title>Statistiques</v-card-title>
           <v-card-text>
-            <p>HP : {{ pokemon.stats.hp }}</p>
-            <p>Attaque : {{ pokemon.stats.attack }}</p>
-            <p>Défense : {{ pokemon.stats.defense }}</p>
-            <p>Vitesse : {{ pokemon.stats.speed }}</p>
+            <PokemonStats class="mt-6" :stats="pokemon.stats" />
           </v-card-text>
         </v-card>
       </v-col>
@@ -42,12 +31,19 @@
 </template>
 
 <script setup>
+  // Importation des bases
   import { useRoute } from 'vue-router'
   import { usePokemonStore } from '@/stores/pokemonStore'
 
+  // Importation des composants
+  import PokemonTypesChips from '@/components/PokemonTypesChips.vue'
+  import PokemonStats from '@/components/PokemonStats.vue'
+
+  // Récupération des données
   const route = useRoute()
   const pokemonStore = usePokemonStore()
 
+  // Récupération de l'id du Pokémon
   const id = route.params.id
   const pokemon = pokemonStore.getPokemonById(id)
 
