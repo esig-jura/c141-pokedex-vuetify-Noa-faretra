@@ -24,10 +24,10 @@
         <v-card class="mt-4">
           <v-card-title>Statistiques</v-card-title>
           <v-card-text>
-            <p>HP : {{ pokemon.hp }}</p>
-            <p>Attaque : {{ pokemon.attack }}</p>
-            <p>Défense : {{ pokemon.defense }}</p>
-            <p>Vitesse : {{ pokemon.speed }}</p>
+            <p>HP : {{ pokemon.stats.hp }}</p>
+            <p>Attaque : {{ pokemon.stats.attack }}</p>
+            <p>Défense : {{ pokemon.stats.defense }}</p>
+            <p>Vitesse : {{ pokemon.stats.speed }}</p>
           </v-card-text>
         </v-card>
       </v-col>
@@ -48,8 +48,9 @@
   const route = useRoute()
   const pokemonStore = usePokemonStore()
 
-  const id = parseInt(route.params.id)
+  const id = route.params.id
   const pokemon = pokemonStore.getPokemonById(id)
+
 </script>
 
 <style scoped>
